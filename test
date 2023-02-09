@@ -1,0 +1,58 @@
+import csv
+import matplotlib.pyplot as plt
+
+# Name of the CSV file
+filename = 'listings.csv'
+
+
+
+
+# Format the column without the "%" symbol
+# filename['host_acceptance_rate'] = filename['host_acceptance_rate'].map(lambda x: str(x).replace('%', ''))
+
+# filename['host_acceptance_rate'] = filename['host_acceptance_rate'].apply(lambda x: x.replace('%', '') if isinstance(x, str) else x)
+
+# Write the updated DataFrame back to the CSV file
+# filename.to_csv("listings.csv", index=False)
+# Column numbers to plot (0-indexed)
+x_column_index = 0
+y_column_index = 1
+
+# Initialize lists to store the values in the selected columns
+x_values = []
+y_values = []
+
+# Open the CSV file and read the data
+with open(filename, 'r') as f:
+    reader = csv.reader(f)
+    # Skip the header row
+    next(reader)
+    # Loop through the rows
+    for row in reader:
+        # Get the values in the selected columns and add them to the lists
+        x_value = row[25]
+        y_value = row[23]
+        x_values.append(x_value)
+        y_values.append(y_value)
+
+# Plot the values as a scatter plot
+plt.scatter(x_values, y_values)
+
+# Label the x-axis and y-axis
+plt.xlabel('host_issuperhost')
+plt.ylabel('host_response_rate')
+
+# Show the plot
+plt.show()
+# print(int(filename['host_issuperhost']).dtype)
+# filename['host_issuperhost'] = int(filename['host_issuperhost']).apply(lambda x: True if x.lower() == "t" else False)
+
+
+# Calculate the true-to-false percentage
+true_count = 500 #filename['host_issuperhost'].value_counts()[t]
+#true_count = filename['host_id'] == 0
+false_count = 6000 #filename['host_issuperhost'].value_counts()[f]
+total_count = true_count + false_count
+percentage = true_count / total_count * 100
+
+print("True-to-False Percentage: {:.2f}%".format(percentage))
